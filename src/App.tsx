@@ -1,8 +1,14 @@
 import React from "react";
-import "./App.css";
+import { ToastContainer } from "react-toastify";
+
+import ErrorBoundary from "components/ErrorBoundary";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <ErrorBoundary>
+      <ToastContainer autoClose={3000} />
+    </ErrorBoundary>
+  );
 }
 
 export default App;
