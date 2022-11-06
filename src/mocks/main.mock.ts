@@ -1,6 +1,4 @@
-import { BooksInfo } from "components/types";
-
-const booksInfo: BooksInfo = {
+const booksInfo = {
   totalItems: 1401,
   items: [
     {
