@@ -19,7 +19,7 @@ const Footer = () => {
     <div className="bg-zinc-800">
       <ul className="flex justify-center gap-6 pt-12 pb-8">
         {Object.keys(icons).map((icon) => {
-          return <li>{icons[icon]}</li>;
+          return <li key={icon}>{icons[icon]}</li>;
         })}
       </ul>
       <div className="flex justify-center p-4">

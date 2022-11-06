@@ -20,7 +20,7 @@ const Filter = () => {
           </label>
           <select className="basis-2/3" id="categories">
             {filterOptions.categories.map((category) => {
-              return <option>{category}</option>;
+              return <option key={category}>{category}</option>;
             })}
           </select>
         </div>
@@ -30,7 +30,7 @@ const Filter = () => {
           </label>
           <select className="basis-2/3" id="sortBy">
             {filterOptions.sortBy.map((option) => {
-              return <option>{option}</option>;
+              return <option key={option}>{option}</option>;
             })}
           </select>
         </div>
