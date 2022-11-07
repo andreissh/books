@@ -1,4 +1,4 @@
-export type BooksInfo = {
+export type BookInfo = {
   id: string;
   volumeInfo: {
     title: string;
@@ -9,14 +9,4 @@ export type BooksInfo = {
     };
     description: string;
   };
-};
-
-export type BookDetailsType = {
-  authors: string[];
-  categories: string[];
-  description: string;
-  imageLinks: {
-    small: string;
-  };
-  title: string;
 };

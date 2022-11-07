@@ -1,6 +1,9 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
-const exampleStateSelector = (state: RootState) => state.exampleSlice;
+const sortOptionsStateSelector = (state: RootState) => state.sortOptionsSlice;
+const booksListStateSelector = (state: RootState) => state.booksListSlice;
 
-export const exampleSelector = createSelector(exampleStateSelector, (state) => state.value);
+export const categorySelector = createSelector(sortOptionsStateSelector, (state) => state.category);
+export const orderBySelector = createSelector(sortOptionsStateSelector, (state) => state.orderBy);
+export const booksListSelector = createSelector(booksListStateSelector, (state) => state.booksInfo);

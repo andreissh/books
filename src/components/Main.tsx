@@ -5,19 +5,24 @@ import { Link } from "react-router-dom";
 import axiosInstance from "api/axiosInstance";
 import errorHandler from "api/errorHandler";
 import config from "config";
+import { addBooks, setNewBooksList } from "store/booksListSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { booksListSelector, categorySelector, orderBySelector } from "store/selectors";
 import { getAuthors, getCategories } from "utils/utils";
 import Error from "./common/Error";
 import Spinner from "./common/Spinner";
-import { BooksInfo } from "./types";
 
 const Main = () => {
   const baseUrl = config.service.BASE_URL;
   const limit = 30;
 
   const [booksTotal, setBooksTotal] = useState(0);
-  const [booksList, setBooksList] = useState<BooksInfo[] | []>([]);
   const [error, setError] = useState<string>("");
   const [startIndex, setStartIndex] = useState<number>(0);
+  const dispatch = useAppDispatch();
+  const booksList = useAppSelector(booksListSelector);
+  const category = useAppSelector(categorySelector);
+  const orderBy = useAppSelector(orderBySelector);
 
   const catchError = (err: string) => {
     setError(err);
@@ -28,7 +33,8 @@ const Main = () => {
       const fetchBooksList = async (url: string) => {
         const response = await axiosInstance(url, {
           params: {
-            q: "all",
+            q: category === "all" ? `${category}` : `subject:${category}`,
+            orderBy: `${orderBy}`,
             maxResults: limit,
           },
         }).catch((err: AxiosError) => {
@@ -38,20 +44,21 @@ const Main = () => {
 
         if (response) {
           setBooksTotal(response.data.totalItems);
-          setBooksList(response.data.items);
           setStartIndex(limit);
+          dispatch(setNewBooksList(response.data.items));
         }
       };
 
       fetchBooksList(baseUrl);
     }
-  }, [baseUrl]);
+  }, [baseUrl, dispatch, category, orderBy]);
 
   const handleBooksLoad = async () => {
     if (baseUrl) {
       const response = await axiosInstance(baseUrl, {
         params: {
-          q: "all",
+          q: category === "all" ? `${category}` : `subject:${category}`,
+          orderBy: `${orderBy}`,
           startIndex,
           maxResults: limit,
         },
@@ -61,7 +68,7 @@ const Main = () => {
       });
 
       if (response) {
-        setBooksList([...booksList, ...response.data.items]);
+        dispatch(addBooks(response.data.items));
         setStartIndex(startIndex + limit);
       }
     }
@@ -85,7 +92,11 @@ const Main = () => {
                   <Link to={`/${book.id}`} key={book.id}>
                     <li className="w-[300px] min-h-[400px] p-2 bg-slate-300">
                       <div className="flex justify-center mb-2">
-                        <img className="w-[120px] h-[180px]" src={book.volumeInfo.imageLinks.thumbnail} alt="" />
+                        <img
+                          className="w-[120px] h-[180px]"
+                          src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : ""}
+                          alt=""
+                        />
                       </div>
                       <div className="flex flex-col">
                         <span className="mb-2 text-gray-500">{getCategories(book.volumeInfo.categories)}</span>

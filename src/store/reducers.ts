@@ -1,7 +1,9 @@
-import exampleSlice from "./exampleSlice";
+import booksListSlice from "./booksListSlice";
+import sortOptionsSlice from "./sortOptionsSlice";
 
 const reducers = {
-  exampleSlice,
+  sortOptionsSlice,
+  booksListSlice,
 };
 
 export default reducers;
