@@ -3,5 +3,10 @@ export const getAuthors = (authors: string[]) => {
 };
 
 export const getCategories = (categories: string[]) => {
-  return categories ? categories[0].split(" ").join(", ") : "No info";
+  return categories
+    ? categories[0]
+        .split(" ")
+        .filter((category) => /^[A-Za-z]+$/g.test(category))
+        .join(", ")
+    : "No info";
 };

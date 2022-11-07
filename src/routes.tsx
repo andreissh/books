@@ -16,7 +16,7 @@ type RouteItem = {
 
 const routePaths: RoutePaths = {
   main: "/",
-  bookDetails: "book/:id",
+  bookDetails: "/:id",
 };
 
 const allRoutes: RouteItem[] = [

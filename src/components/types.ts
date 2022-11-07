@@ -10,3 +10,13 @@ export type BooksInfo = {
     description: string;
   };
 };
+
+export type BookDetailsType = {
+  authors: string[];
+  categories: string[];
+  description: string;
+  imageLinks: {
+    small: string;
+  };
+  title: string;
+};
