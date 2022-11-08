@@ -6,7 +6,16 @@ export type BookInfo = {
     categories: string[];
     imageLinks: {
       thumbnail: string;
+      small?: string;
     };
     description: string;
   };
+};
+
+export type FilterOptions = {
+  [key: string]: string[];
+};
+
+export type IconsType = {
+  [key: string]: JSX.Element;
 };

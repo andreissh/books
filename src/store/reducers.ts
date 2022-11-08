@@ -1,8 +1,8 @@
 import booksListSlice from "./booksListSlice";
-import sortOptionsSlice from "./sortOptionsSlice";
+import filterOptionsSlice from "./filterOptionsSlice";
 
 const reducers = {
-  sortOptionsSlice,
+  filterOptionsSlice,
   booksListSlice,
 };
 

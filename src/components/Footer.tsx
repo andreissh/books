@@ -3,12 +3,9 @@ import React from "react";
 import Chat from "./common/Chat";
 import Envelope from "./common/Envelope";
 import Phone from "./common/Phone";
+import { IconsType } from "./types";
 
 const Footer = () => {
-  type IconsType = {
-    [key: string]: JSX.Element;
-  };
-
   const icons: IconsType = {
     phone: <Phone />,
     chat: <Chat />,

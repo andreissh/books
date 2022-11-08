@@ -1,35 +1,56 @@
+import { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import axiosInstance from "api/axiosInstance";
+import errorHandler from "api/errorHandler";
 import config from "config";
-import { booksListSelector } from "store/selectors";
 import { getAuthors, getCategories } from "utils/utils";
+import Error from "./common/Error";
 import Spinner from "./common/Spinner";
+import { BookInfo } from "./types";
 
 const BookDetails = () => {
-  const baseUrl = config.service.BASE_URL;
+  const baseUrl = config.service.BASE_URL as string;
   const location = useLocation();
   const url = baseUrl + location.pathname;
-  const booksList = useSelector(booksListSelector);
-  const bookInfo = booksList.filter((book) => book.id === location.pathname.slice(1))[0];
-  const [bookCover, setBookCover] = useState<string>("");
+
+  const [bookInfo, setBookInfo] = useState<BookInfo | null>(null);
+  const [error, setError] = useState<string>("");
+
+  const catchError = (err: string) => {
+    setError(err);
+  };
 
   useEffect(() => {
     const fetchBookDetails = async () => {
-      const bookDetails = await axiosInstance(url);
-      setBookCover(bookDetails.data.volumeInfo.imageLinks.small);
+      const response = await axiosInstance(url).catch((err: AxiosError) => {
+        const newError = errorHandler(err);
+        catchError(newError);
+      });
+
+      if (response) {
+        setBookInfo(response.data);
+      }
     };
+
     fetchBookDetails();
   }, [url]);
+
+  if (error) {
+    return (
+      <div className="flex justify-center mt-12">
+        <Error error={error} />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full xl:w-[1280px] mx-auto flex flex-col md:flex-row">
       {bookInfo ? (
         <>
           <div className="p-4 basis-2/5 flex justify-center items-center bg-slate-300">
-            <img src={bookCover} alt="" />
+            <img src={bookInfo.volumeInfo.imageLinks.small} alt="" />
           </div>
           <div className="p-4 basis-3/5 flex flex-col">
             <span className="mb-8 text-gray-500">{getCategories(bookInfo.volumeInfo.categories)}</span>

@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { BookInfo } from "components/types";
 
-type BooksInfoState = {
-  booksInfo: BookInfo[];
+type BooksListState = {
+  booksList: BookInfo[];
 };
 
-const initialState: BooksInfoState = {
-  booksInfo: [],
+const initialState: BooksListState = {
+  booksList: [],
 };
 
 const booksListSlice = createSlice({
@@ -15,10 +15,10 @@ const booksListSlice = createSlice({
   initialState,
   reducers: {
     addBooks: (state, action: PayloadAction<BookInfo[]>) => {
-      state.booksInfo = [...state.booksInfo, ...action.payload];
+      state.booksList = [...state.booksList, ...action.payload];
     },
     setNewBooksList: (state, action: PayloadAction<BookInfo[]>) => {
-      state.booksInfo = action.payload;
+      state.booksList = action.payload;
     },
   },
 });
