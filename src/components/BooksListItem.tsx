@@ -21,7 +21,7 @@ const BooksListItem: React.FC<BooksListItemProps> = ({ book }) => {
             <img
               className="w-[120px] h-[180px]"
               src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : ""}
-              alt=""
+              alt="book"
             />
           </div>
           <div className="flex flex-col">

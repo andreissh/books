@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import axiosInstance from "api/axiosInstance";
 import errorHandler from "api/errorHandler";
-import config from "config";
 import { addBooks, setNewBooksList } from "store/booksListSlice";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { booksListSelector, filterOptionsSelector } from "store/selectors";
@@ -13,7 +12,6 @@ import Error from "./common/Error";
 import Spinner from "./common/Spinner";
 
 const Main = () => {
-  const baseUrl = config.service.BASE_URL as string;
   const limit = 30;
 
   const [booksTotal, setBooksTotal] = useState(0);
@@ -36,8 +34,8 @@ const Main = () => {
   }, [filterOptions]);
 
   useEffect(() => {
-    const fetchBooksList = async (url: string) => {
-      const response = await axiosInstance(url, {
+    const fetchBooksList = async () => {
+      const response = await axiosInstance("volumes", {
         params: {
           q: getQueryOption(),
           orderBy: `${filterOptions.orderBy}`,
@@ -55,11 +53,11 @@ const Main = () => {
       }
     };
 
-    fetchBooksList(baseUrl);
-  }, [baseUrl, dispatch, filterOptions, getQueryOption]);
+    fetchBooksList();
+  }, [dispatch, filterOptions, getQueryOption]);
 
   const handleBooksLoad = async () => {
-    const response = await axiosInstance(baseUrl, {
+    const response = await axiosInstance("volumes", {
       params: {
         q: getQueryOption(),
         orderBy: `${filterOptions.orderBy}`,

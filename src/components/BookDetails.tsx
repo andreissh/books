@@ -4,16 +4,14 @@ import { useLocation } from "react-router-dom";
 
 import axiosInstance from "api/axiosInstance";
 import errorHandler from "api/errorHandler";
-import config from "config";
 import { getAuthors, getCategories } from "utils/utils";
 import Error from "./common/Error";
 import Spinner from "./common/Spinner";
 import { BookInfo } from "./types";
 
 const BookDetails = () => {
-  const baseUrl = config.service.BASE_URL as string;
   const location = useLocation();
-  const url = baseUrl + location.pathname;
+  const url = "volumes" + location.pathname;
 
   const [bookInfo, setBookInfo] = useState<BookInfo | null>(null);
   const [error, setError] = useState<string>("");
